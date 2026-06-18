@@ -301,8 +301,8 @@ function startReset(){
 }
 function cancelReset(){ clearTimeout(pressTimer); }
  
-/* ========================= TIMER MIN 10 MIN ========================= */
-const MIN_TIME = 10 * 60 * 1000;
+/* ========================= TIMER MIN 20 MIN ========================= */
+const MIN_TIME = 20 * 60 * 1000;
 let startTime = localStorage.getItem("startTime");
 if(!startTime){
   startTime = Date.now();
@@ -316,7 +316,7 @@ const presentationImage = "images/La Quête des Stands.png";
  
 /* ========================= STANDS ========================= */
 const stands = [
-{ title:"Point Animations", text:"🎤✨ Joue à la Quête des Stands ! ✨🎤\n\nPars explorer les stands et réponds à leurs énigmes." },
+{ title:"Point Animations", text:"🔥✨ C'est parti ! ✨🔥\n\nPars explorer les stands et réponds à leurs énigmes." },
 { title:"Hall 6 / Stand N735 – Association Saint Seiya Myth Chloth News", question:"Comment se nomme la sorcière maléfique dans Power Rangers ?", answers:["rita repulsa"] },
 { title:"Hall 4 / Stand N430 – e-Enfance", question:"Comment s’appelle la trilogie de romans graphiques à laquelle l’Association e-Enfance / 3018 a contribué pour sensibiliser aux violences et au cyberharcèlement ?", answers:["les combats invisibles"] },
 { title:"Hall 4 / Stand K424 – FF Museum", question:"Quel logiciel utilise l'association Animaniak pour proposer du karaoke ?", answers:["karaoke mugen"] },
