@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quête des Stands – Point Animations</title>
+<style>
+body{
+  font-family:Arial,sans-serif;
+  background:radial-gradient(circle at top,#7a0410,#b04748);
+  color:white;
+  text-align:center;
+  padding:20px;
+}
+.box{
+  max-width:420px;
+  margin:auto;
+  background:rgba(0,0,0,0.65);
+  padding:22px;
+  border-radius:18px;
+  box-shadow:0 0 25px rgba(255,95,210,0.25);
+}
+h1,h2{
+  color:#ff5fd2;
+  text-shadow:0 0 8px rgba(255,95,210,0.6);
+}
+.stand-image{
+  width:100%;
+  max-width:360px;
+  margin:15px auto;
+  border-radius:14px;
+  box-shadow:0 0 20px rgba(255,95,210,0.35);
+}
+input{
+  width:80%;
+  padding:10px;
+  margin-top:10px;
+  border-radius:20px;
+  border:none;
+  text-align:center;
+}
+button{
+  margin-top:14px;
+  padding:12px 22px;
+  background:linear-gradient(135deg,#ff5fd2,#b84dff);
+  border:none;
+  border-radius:30px;
+  font-weight:bold;
+  color:black;
+  cursor:pointer;
+}
+button:hover{ transform:scale(1.05); }
+.success{ color:#6bffb0; margin-top:12px; }
+.error{ color:#ff6b6b; margin-top:12px; }
+.mission-complete{
+  font-size:28px;
+  font-weight:bold;
+  color:#6bffb0;
+  text-shadow:0 0 8px #6bffb0,0 0 16px #6bffb0,0 0 24px #6bffb0;
+  animation:pulse 1.2s infinite alternate;
+  margin-top:20px;
+}
+@keyframes pulse{
+  from{transform:scale(1);opacity:0.7;}
+  to{transform:scale(1.08);opacity:1;}
+}
+</style>
+</head>
+<body>
+<div class="box">
+<h1 id="title">Quête des Stands</h1>
+<div id="content"></div>
+</div>
+<script>
+/* ========================= RESET CACHÉ ========================= */
+const title = document.getElementById("title");
+let pressTimer;
+title.addEventListener("mousedown",startReset);
+title.addEventListener("touchstart",startReset);
+title.addEventListener("mouseup",cancelReset);
+title.addEventListener("mouseleave",cancelReset);
+title.addEventListener("touchend",cancelReset);
+function startReset(){
+  pressTimer=setTimeout(()=>{
+    localStorage.removeItem("progress");
+    localStorage.removeItem("startTime");
+    alert("Progression réinitialisée");
+    location.reload();
+  },3000);
+}
+function cancelReset(){ clearTimeout(pressTimer); }
+
+/* ========================= TIMER MIN 10 MIN ========================= */
+const MIN_TIME = 10 * 60 * 1000;
+let startTime = localStorage.getItem("startTime");
+if(!startTime){
+  startTime = Date.now();
+  localStorage.setItem("startTime",startTime);
+}else{
+  startTime = parseInt(startTime);
+}
+
+/* ========================= IMAGE ACCUEIL ========================= */
+const presentationImage = "images/La Quête des Stands.png";
+
+/* ========================= STANDS ========================= */
+const stands = [
+{ title:"Point Animations", text:"🎤✨ Joue à la Quête des Stands ! ✨🎤\n\nPars explorer les stands et réponds à leurs énigmes." },
+{ title:"Stand L135 – Karaté Dojo Marseillais", question:"Combien de ceintures noires le Karaté Dojo Marseillais a eu dans ses rands depuis sa création en 2014 (en chiffres) ?", answers:["45"] },
+{ title:"Stand E037 – Game Academy", question:"Quelles sont les formations proposées à Game Academy ?", answers:["game artist et game developer"] },
+{ title:"Stand E182 – Association Animaniak", question:"Quel logiciel utilise l'association Animaniak pour proposer du karaoke ?", answers:["karaoke mugen"] },
+{ title:"Stand E198 – Chinafi", question:"Le kanji « 夢 » (yume) correspond à quel mot ?", answers:["rêve"] },
+{ title:"Stand D038 – Doud dans le retro", question:"De quelle console à quelle console peut-on jouer à Mario Kart sur le stand Doud dans le rétro ?", answers:["super nintendo à wii"] }, 
+{ title:"Stand E190 – Event Yaoi", question:"A quel anime le dojinshi Replace par Ozone présent sur notre stand fait-il référence ?", answers:["kuroko's basket", "kuroko no basket"] },
+{ title:"Stand E139 – DT Workshop", question:"Comment s'appelle la mascotte de DT WORKSHOP ?", answers:["bob le boug"] },
+{ title:"Stand L172 – Pimp Ton Perso", question:"Quel jeu de rôle est toujours programmé à 10h sur le stand Pimp Ton Perso ?", answers:["phasmoboo"] },
+{ title:"Stand B030 – Aoi Sora Cosplay", question:"Comment appelle-t-on quelqu'un qui fait du cosplay ?", answers:["cosplayer"] },
+{ title:"Stand G027 – Tekken Marseille", question:"Combien de personnages féminins y a-t-il dans Tekken 8 (en chiffres) ?", answers:["12"] },
+{ title:"Stand L160 – Star Hill Team", question:"Qu'est ce qu'un diorama ?", answers:["maquette exposition de figurine"] },
+{ title:"Stand J150 – ASSL Provence", question:"Quelle est l'année de création de l'ASSL Provence ?", answers:["2016"] }
+];
+
+/* ========================= SAUVEGARDE ========================= */
+let progress = parseInt(localStorage.getItem("progress"));
+if(isNaN(progress) || progress < 0 || progress >= stands.length){
+  progress = 0;
+  localStorage.setItem("progress",0);
+}
+let current = progress;
+const content = document.getElementById("content");
+
+/* ========================= NORMALISATION ========================= */
+function normalize(text){
+  return text.toLowerCase().normalize("NFD")
+    .replace(/[\u0300-\u036f]/g,"")
+    .replace(/[^a-z0-9\s]/g,"")
+    .replace(/\s+/g," ").trim();
+}
+
+function levenshtein(a, b) {
+  const matrix = [];
+  for (let i = 0; i <= b.length; i++) matrix[i] = [i];
+  for (let j = 0; j <= a.length; j++) matrix[0][j] = j;
+  for (let i = 1; i <= b.length; i++) {
+    for (let j = 1; j <= a.length; j++) {
+      if (b[i - 1] === a[j - 1]) matrix[i][j] = matrix[i - 1][j - 1];
+      else matrix[i][j] = Math.min(
+        matrix[i - 1][j - 1]+1,
+        matrix[i][j - 1]+1,
+        matrix[i - 1][j]+1
+      );
+    }
+  }
+  return matrix[b.length][a.length];
+}
+
+/* ========================= RENDER ========================= */
+function render(){
+  if(current >= stands.length){
+    const elapsed = Date.now() - startTime;
+    if(elapsed < MIN_TIME){
+      content.innerHTML = `
+<p class="error">
+⛔ On ne la fait pas à Chibi Dino, pris la main dans le sac petit tricheur ! 😈<br><br>
+Retourne au Point Animations pour recommencer.<br>
+</p>
+<img src="images/holmes.png" class="stand-image">`;
+      return;
+    }
+    content.innerHTML = `
+<div class="mission-complete">MISSION COMPLETE</div>
+<p class="success">
+🎉 Bravo !<br><br>
+Présente cet écran au staff du Point Animations.
+</p>`;
+    return;
+  }
+
+  const stand = stands[current];
+
+  if(!stand.question){
+    content.innerHTML = `
+<h2>${stand.title}</h2>
+<img src="${presentationImage}" class="stand-image">
+<p>${stand.text.replace(/\n/g,"<br>")}</p>
+<button onclick="next()">Commencer</button>`;
+    return;
+  }
+
+  content.innerHTML = `
+<h2>${stand.title}</h2>
+<p>${stand.question}</p>
+<input id="answer" placeholder="Ta réponse">
+<br>
+<button onclick="check()">Valider</button>
+<div id="message"></div>`;
+}
+
+/* ========================= CHECK ========================= */
+function isNumeric(str){ return /^[0-9]+$/.test(str); }
+
+function check(){
+  const answer = document.getElementById("answer");
+  const message = document.getElementById("message");
+  const userRaw = answer.value.trim();
+  const user = normalize(userRaw);
+
+  if(!user){
+    message.innerHTML = `<p class="error">Entre une réponse 😉</p>`;
+    return;
+  }
+
+  const validAnswers = stands[current].answers.map(a=>normalize(a));
+  const numericExpected = validAnswers.every(a => isNumeric(a));
+
+  let ok = false;
+  if(numericExpected){
+    ok = validAnswers.includes(userRaw);
+  } else {
+    ok = validAnswers.some(a=>{
+      if(user === a) return true;
+      if(user.includes(a)) return true;
+      if(levenshtein(user,a) <= Math.max(1, Math.floor(a.length * 0.3))) return true;
+      return false;
+    });
+  }
+
+  if(ok){
+    progress = current + 1;
+    localStorage.setItem("progress", progress);
+    message.innerHTML = `<p class="success">Bonne réponse !</p>
+<button onclick="next()">Continuer ➜</button>`;
+  } else {
+    message.innerHTML = `<p class="error">Mauvaise réponse, observe bien le stand 👀</p>`;
+  }
+}
+
+/* ========================= NEXT ========================= */
+function next(){
+  if(current < stands.length - 1){
+    current++;
+    progress = current;
+    localStorage.setItem("progress", progress);
+    render();
+  } else {
+    current = stands.length;
+    render();
+  }
+}
+
+/* ========================= START ========================= */
+render();
+</script>
+</body>
+</html>
