@@ -106,18 +106,18 @@ const presentationImage = "images/La Quête des Stands.png";
 /* ========================= STANDS ========================= */
 const stands = [
 { title:"Point Animations", text:"🎤✨ Joue à la Quête des Stands ! ✨🎤\n\nPars explorer les stands et réponds à leurs énigmes." },
-{ title:"Stand L135 – Karaté Dojo Marseillais", question:"Combien de ceintures noires le Karaté Dojo Marseillais a eu dans ses rands depuis sa création en 2014 (en chiffres) ?", answers:["45"] },
-{ title:"Stand E037 – Game Academy", question:"Quelles sont les formations proposées à Game Academy ?", answers:["game artist et game developer"] },
-{ title:"Stand E182 – Association Animaniak", question:"Quel logiciel utilise l'association Animaniak pour proposer du karaoke ?", answers:["karaoke mugen"] },
-{ title:"Stand E198 – Chinafi", question:"Le kanji « 夢 » (yume) correspond à quel mot ?", answers:["rêve"] },
-{ title:"Stand D038 – Doud dans le retro", question:"De quelle console à quelle console peut-on jouer à Mario Kart sur le stand Doud dans le rétro ?", answers:["super nintendo à wii"] }, 
-{ title:"Stand E190 – Event Yaoi", question:"A quel anime le dojinshi Replace par Ozone présent sur notre stand fait-il référence ?", answers:["kuroko's basket", "kuroko no basket"] },
-{ title:"Stand E139 – DT Workshop", question:"Comment s'appelle la mascotte de DT WORKSHOP ?", answers:["bob le boug"] },
-{ title:"Stand L172 – Pimp Ton Perso", question:"Quel jeu de rôle est toujours programmé à 10h sur le stand Pimp Ton Perso ?", answers:["phasmoboo"] },
-{ title:"Stand B030 – Aoi Sora Cosplay", question:"Comment appelle-t-on quelqu'un qui fait du cosplay ?", answers:["cosplayer"] },
-{ title:"Stand G027 – Tekken Marseille", question:"Combien de personnages féminins y a-t-il dans Tekken 8 (en chiffres) ?", answers:["12"] },
-{ title:"Stand L160 – Star Hill Team", question:"Qu'est ce qu'un diorama ?", answers:["maquette exposition de figurine"] },
-{ title:"Stand J150 – ASSL Provence", question:"Quelle est l'année de création de l'ASSL Provence ?", answers:["2016"] }
+{ title:"Hall 6 / Stand N735 – Association Saint Seiya Myth Chloth News", question:"Comment se nomme la sorcière maléfique dans Power Rangers ?", answers:["rita repulsa"] },
+{ title:"Hall 4 / Stand N430 – e-Enfance", question:"Comment s’appelle la trilogie de romans graphiques à laquelle l’Association e-Enfance / 3018 a contribué pour sensibiliser aux violences et au cyberharcèlement ?", answers:["les combats invisibles"] },
+{ title:"Hall 4 / Stand K424 – FF Museum", question:"Quel logiciel utilise l'association Animaniak pour proposer du karaoke ?", answers:["karaoke mugen"] },
+{ title:"Hall 5A / Stand Q547 – Iokai Shiatsu Paris", question:"Quel est le véritable nom du Shiatsu ?", answers:["do in an kyo"] },
+{ title:"Hall 5A / Stand W515 – Kanimy", question:"Quel anime a remporté le prix de Meilleur Anime aux ANIME AWARDS organisés par KANIMY à JAPAN EXPO MARSEILLE ?", answers:["Le péché originel de takopi"] }, 
+{ title:" Hall 4 / Stand P435 – L‘Abri du collectionneur fallout", question:"A quel anime le dojinshi Replace par Ozone présent sur notre stand fait-il référence ?", answers:["kuroko's basket", "kuroko no basket"] },
+{ title:"Hall 5A / Stand S541 – Les Dix Lunes AMZ", question:"Quel est le nom du créateur de la boutique de baguettes magiques ? ?", answers:["maître aelred d'ambroise"] },
+{ title:"Hall 5A / Stand U525 – NOOB Olydri", question:"Quelle est la 4ème faction jouable de la série NOOB ? L'Empire, la Coalition, l'Ordre, et ... ?", answers:["les sans factions"] },
+{ title:"Hall 5A / Stand N506 – Paris Sumo", question:"De quel pays hors du Japon viennent le  plus de lutteurs de sumo ?", answers:["mongolie"] },
+{ title:"Hall 6 / Stand P809 – R2KT-19", question:"Il existe plusieurs R2KT dans le monde quel est le numéro de celle présentée sur le stand ? ?", answers:["19"] },
+{ title:"Hall 5A / Stand S625 – Taikoyaki", question:"Quelle est la couleur des cordes du plus gros Katsugi daiko de Taikoyaki ?", answers:["orange"] },
+{ title:"Hall 5A / Stand V518 – Vainkeurz", question:"Quelle est la personne française la plus connue qui ait fait une TopList en live Twitch ?", answers:["Mister V"] }
 ];
 
 /* ========================= SAUVEGARDE ========================= */
